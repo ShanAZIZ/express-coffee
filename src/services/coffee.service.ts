@@ -20,5 +20,17 @@ export class CoffeeService {
         return await model.save();
     }
 
+    public async getAll(): Promise<CoffeeDocument[]> {
+        return CoffeeModel.find().exec();
+    }
 
+
+    async getById(id: string): Promise<CoffeeDocument | null> {
+        return CoffeeModel.findById(id).exec();
+    }
+
+    async deleteById(coffeeId: string): Promise<boolean> {
+        const res = await CoffeeModel.deleteOne({_id: coffeeId}).exec();
+        return res.deletedCount === 1;
+    }
 }
