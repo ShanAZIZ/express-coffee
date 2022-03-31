@@ -13,7 +13,7 @@ export class CoffeeController {
 
     async createCoffee(req: Request, res: Response) {
         const coffeeBody = req.body;
-        if(!coffeeBody.name || !coffeeBody.intensity || !coffeeBody.price) {
+        if (!coffeeBody.name || !coffeeBody.intensity || !coffeeBody.price) {
             res.status(400).end();
             return;
         }
@@ -26,23 +26,36 @@ export class CoffeeController {
                     price: coffeeBody.price
                 });
             res.json(coffee);
-        }
-        catch {
+        } catch {
             res.status(400).end();
             return;
         }
 
     }
 
-    async getAllCoffees(req: Request, res: Response){
+    async getAllCoffees(req: Request, res: Response) {
         const coffees: CoffeeDocument[] = await CoffeeService.getInstance().getAll();
         res.json(coffees);
     }
 
-    async getCoffee(req: Request, res: Response){
+    async getCoffee(req: Request, res: Response) {
         try {
             const coffee = await CoffeeService.getInstance().getById(req.params.coffeeId);
-            if(coffee === null){
+            if (coffee === null) {
+                res.status(404).end();
+                return;
+            }
+            res.json(coffee);
+        } catch {
+            res.status(400).end();
+            return;
+        }
+    }
+
+    async updateCoffee(req: Request, res: Response){
+        try {
+            const coffee = await CoffeeService.getInstance().updateById(req.params.coffeeId, req.body);
+            if(!coffee){
                 res.status(404).end();
                 return;
             }
@@ -53,6 +66,7 @@ export class CoffeeController {
             return;
         }
     }
+
 
     async deleteCoffee(req: Request, res: Response){
         try {
@@ -77,6 +91,7 @@ export class CoffeeController {
         router.get('/:coffeeId', this.getCoffee.bind(this));
         router.delete('/:coffeeId', this.deleteCoffee.bind(this));
         router.post('/', express.json(), this.createCoffee.bind(this)); // permet de forcer le this lors de l'appel de sayHello
+        router.put('/:coffeeId', express.json(), this.updateCoffee.bind(this));
         return router;
     }
 
