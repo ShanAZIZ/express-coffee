@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "buildev": "rm -r ./dist && tsc",
-    "start": "node ./dist/index.js",
+    "startdev": "node ./dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
