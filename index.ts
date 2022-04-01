@@ -17,6 +17,8 @@ async function startServer(): Promise<void> {
         }
     );
 
+    console.log("OK");
+
     const app = express();
     const coffeeController = new CoffeeController(db);
     app.use('/coffee', coffeeController.buildRoutes()); // enregistrement de la route
