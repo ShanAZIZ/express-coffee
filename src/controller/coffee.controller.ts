@@ -1,15 +1,8 @@
 import express, {Router, Request, Response} from "express";
-import {Mongoose} from "mongoose";
 import {CoffeeDocument} from "../models";
 import {CoffeeService} from "../services";
 
 export class CoffeeController {
-
-    private mongoose: Mongoose;
-
-    constructor(mongoose: Mongoose) {
-        this.mongoose = mongoose;
-    }
 
     async createCoffee(req: Request, res: Response) {
         const coffeeBody = req.body;
