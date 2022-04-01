@@ -1,6 +1,7 @@
 import express, {Router, Request, Response} from "express";
 import {CoffeeDocument} from "../models";
 import {CoffeeService} from "../services";
+import {checkUserConnected} from "../middlewares";
 
 export class CoffeeController {
 
@@ -80,6 +81,7 @@ export class CoffeeController {
 
     buildRoutes(): Router {
         const router = express.Router();
+        router.use(checkUserConnected());
         router.get('/', this.getAllCoffees.bind(this));
         router.get('/:coffeeId', this.getCoffee.bind(this));
         router.delete('/:coffeeId', this.deleteCoffee.bind(this));
